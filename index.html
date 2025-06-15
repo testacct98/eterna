@@ -1,0 +1,304 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Eternal Duel</title>
+  <style>
+    #cosmic-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+    body {
+      margin: 0;
+      background: black;
+      color: gold;
+      font-family: 'Georgia', serif;
+      overflow-x: hidden;
+    }
+
+    .stars {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      background: url('https://www.transparenttextures.com/patterns/stardust.png');
+      opacity: 0.1;
+      z-index: 0;
+    }
+
+    .lightning {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(ellipse at center, rgba(255,255,255,0.1) 0%, transparent 80%);
+      animation: flash 4s infinite ease-in-out;
+      z-index: 1;
+    }
+
+    @keyframes flash {
+      0%, 100% { opacity: 0; }
+      50% { opacity: 0.2; }
+    }
+
+    .content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 100px 20px;
+    }
+
+    .logo {
+      width: 320px;
+      max-width: 90vw;
+      margin: 0 auto 40px;
+      display: block;
+      filter: drop-shadow(0 0 20px gold);
+    }
+
+    h1 {
+      font-size: 3em;
+      margin-bottom: 0.2em;
+      text-shadow: 0 0 10px gold;
+    }
+
+    h2 {
+      font-size: 1.4em;
+      font-weight: normal;
+      color: #f2e6b6;
+      margin-bottom: 2em;
+    }
+
+    .btn {
+      display: inline-block;
+      margin: 10px;
+      padding: 14px 28px;
+      background: gold;
+      color: black;
+      font-weight: bold;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.3s ease;
+    }
+
+    .btn:hover {
+      background: #ffd700;
+    }
+
+    .ca-display {
+      margin-top: 20px;
+      color: #ccc;
+      font-size: 1.2em;
+      display: none;
+    }
+
+    footer {
+      margin-top: 80px;
+      font-size: 0.9em;
+      color: #888;
+    }
+
+    .twitter {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 3;
+    }
+
+    .twitter img {
+      width: 40px;
+      height: 40px;
+    }
+  </style>
+  <script>
+    function revealCA() {
+      document.getElementById('ca').style.display = 'block';
+    }
+  </script>
+</head>
+<body>
+<canvas id="cosmic-canvas"></canvas>
+<script>
+  const canvas = document.getElementById('cosmic-canvas');
+  const ctx = canvas.getContext('2d');
+  let width, height;
+  let stars = [];
+
+  function resizeCanvas() {
+    width = window.innerWidth;
+    height = window.innerHeight;
+    canvas.width = width;
+    canvas.height = height;
+  }
+
+  function createStars(count) {
+    stars = [];
+    for (let i = 0; i < count; i++) {
+      stars.push({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        radius: 0.8 + Math.random() * 1.8,
+        dx: (Math.random() - 0.5) * 0.5,
+        dy: (Math.random() - 0.5) * 0.5,
+        opacity: 0.6 + Math.random() * 0.4
+      });
+    }
+  }
+
+  function drawStars() {
+    ctx.clearRect(0, 0, width, height);
+    for (let star of stars) {
+      ctx.beginPath();
+      ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(255, 255, 255, ${star.opacity})`;
+      ctx.fill();
+      star.x += star.dx;
+      star.y += star.dy;
+      if (star.x < 0 || star.x > width || star.y < 0 || star.y > height) {
+        star.x = Math.random() * width;
+        star.y = Math.random() * height;
+      }
+    }
+    requestAnimationFrame(drawStars);
+  }
+
+  window.addEventListener('resize', () => {
+    resizeCanvas();
+    createStars(400);
+  });
+
+  resizeCanvas();
+  createStars(400);
+  drawStars();
+</script>
+
+
+<div class="stars"></div>
+<div class="lightning"></div>
+
+<div class="twitter" style="display: flex; align-items: center; gap: 10px; background: rgba(0,0,0,0.4); padding: 6px 12px; border-radius: 8px;">
+  <a href="https://x.com/GltchChaos" target="_blank">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/X_logo_2023_original.svg" alt="Twitter" style="width: 50px; height: 50px;">
+    <span style="color: white; font-size: 16px;">Follow on X</span>
+  </a>
+</div>
+
+<div class="content" style="position: relative; z-index: 2;">
+  <img src="logo.png" alt="Eternal Duel Logo" class="logo" />
+  <h1>ETERNAL DUEL</h1>
+  <h2>Where gods clash, markets tremble.</h2>
+  <p>Forged in the stars, $DUEL is the result of a cosmic war between immortals. Now it's your turn to fight.</p>
+  <button class="btn" onclick="revealCA()">Buy Now</button>
+  <div id="ca" class="ca-display">CA: 7qxD7sEYSKEY8foKZTpU2Za1CotGoGArKADEasoLpump</div>
+</div>
+
+
+  <section style="margin-top: 100px; text-align: center; max-width: 1000px; margin-left: auto; margin-right: auto; z-index: 2; position: relative;">
+    <h2 style="color: gold; font-size: 2.4em; font-weight: bold; margin-bottom: 10px;">The Myth</h2>
+    <p style="color: #eee; font-size: 1.4em;">
+      In the darkness before time, two gods awakened. Not to rule — but to compete. Their prize? A single token.
+    </p>
+  </section>
+
+  <section style="margin-top: 80px; text-align: center; max-width: 1000px; margin-left: auto; margin-right: auto; z-index: 2; position: relative;">
+    <h2 style="color: gold; font-size: 2.4em; font-weight: bold; margin-bottom: 10px;">The Meaning of $DUEL</h2>
+    <p style="color: #eee; font-size: 1.4em;">
+      $DUEL isn’t just a coin — it’s the scorecard of war.<br>
+      Every buy fuels a god. Every sell swings the cosmos.<br><br>
+      <strong>No roadmap. No peace treaty. Just swings, pumps, and divine coping.</strong>
+    </p>
+  </section>
+
+  <section style="margin-top: 80px; text-align: center; max-width: 900px; margin-left: auto; margin-right: auto; z-index: 2; position: relative;">
+    <h2 style="color: gold; font-size: 2.4em; font-weight: bold; margin-bottom: 20px;">Choose Your Fighter</h2>
+    <table style="width: 100%; border-collapse: collapse; color: white; font-size: 1.2em;">
+      <thead>
+        <tr style="background: rgba(255, 215, 0, 0.1);">
+          <th style="padding: 10px; border: 1px solid gold;">Eternal</th>
+          <th style="padding: 10px; border: 1px solid gold;">Title</th>
+          <th style="padding: 10px; border: 1px solid gold;">Power</th>
+          <th style="padding: 10px; border: 1px solid gold;">Weakness</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="padding: 10px; border: 1px solid gold;">ZORAX</td>
+          <td style="padding: 10px; border: 1px solid gold;">Lord of Swings</td>
+          <td style="padding: 10px; border: 1px solid gold;">Max pumpage 💥</td>
+          <td style="padding: 10px; border: 1px solid gold;">Simps 😔</td>
+        </tr>
+        <tr>
+          <td style="padding: 10px; border: 1px solid gold;">LYTHRA</td>
+          <td style="padding: 10px; border: 1px solid gold;">Queen of Bags</td>
+          <td style="padding: 10px; border: 1px solid gold;">Whale control 🐋</td>
+          <td style="padding: 10px; border: 1px solid gold;">FOMO 😵</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  
+  <section style="margin-top: 100px; text-align: center; max-width: 1000px; margin-left: auto; margin-right: auto; z-index: 2; position: relative;">
+    <h2 style="color: gold; font-size: 2.4em; font-weight: bold; margin-bottom: 10px;">How to Join the Duel</h2>
+    <table style="width: 100%; color: white; font-size: 1.2em; border-spacing: 0 10px;">
+      <tr><td>1️⃣</td><td>Click the <strong>Buy Now</strong> button to copy the CA</td></tr>
+      <tr><td>2️⃣</td><td>Open your Solana wallet (Phantom, Solflare, etc.)</td></tr>
+      <tr><td>3️⃣</td><td>Use the <strong>Swap</strong> feature</td></tr>
+      <tr><td>4️⃣</td><td>Paste the CA and swap SOL for <strong>$DUEL</strong></td></tr>
+      <tr><td>5️⃣</td><td>Welcome to the Eternal Duel — hold and watch the gods fight</td></tr>
+    </table>
+  </section>
+
+  
+  <section style="margin-top: 100px; text-align: center;">
+    <img src="scroll_2.png" alt="Scroll Section 2" style="width: 90%; max-width: 1200px; border-radius: 12px;" />
+  </section>
+
+  <section style="margin-top: 100px; text-align: center; max-width: 1000px; margin-left: auto; margin-right: auto; z-index: 2; position: relative;">
+    <h2 style="color: gold; font-size: 2.4em; font-weight: bold; margin-bottom: 10px;">Roadmap of Chaos</h2>
+    
+  <table style="width: 100%; max-width: 600px; margin: 0 auto; border-collapse: collapse; color: white; font-size: 1.4em;">
+    <thead>
+      <tr style="background: rgba(255, 215, 0, 0.1);">
+        <th style="padding: 12px; border: 1px solid gold;">Quarter</th>
+        <th style="padding: 12px; border: 1px solid gold;">Event</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td style="padding: 10px; border: 1px solid gold;">Q1</td><td style="padding: 10px; border: 1px solid gold;">Eternal Awakening</td></tr>
+      <tr><td style="padding: 10px; border: 1px solid gold;">Q2</td><td style="padding: 10px; border: 1px solid gold;">Duel on Solana</td></tr>
+      <tr><td style="padding: 10px; border: 1px solid gold;">Q3</td><td style="padding: 10px; border: 1px solid gold;">Meme Prophecy</td></tr>
+      <tr><td style="padding: 10px; border: 1px solid gold;">Q4</td><td style="padding: 10px; border: 1px solid gold;">Full Cosmic Reckoning</td></tr>
+    </tbody>
+  </table>
+        
+      <li><strong>Q2:</strong> Duel on Solana</li>
+      <li><strong>Q3:</strong> Meme prophecy revealed</li>
+      <li><strong>Q4:</strong> Full cosmic reckoning</li>
+    </ul>
+  </section>
+
+  <section style="margin-top: 100px; text-align: center; max-width: 1000px; margin-left: auto; margin-right: auto; z-index: 2; position: relative;">
+    <h2 style="color: gold; font-size: 2.4em; font-weight: bold; margin-bottom: 10px;">The Divine Cult</h2>
+    <p style="color: #eee; font-size: 1.4em;">
+      Join the Eternal Duel cult. We chant in caps. We cope in pumps. We hold through thunder.<br><br>
+      <a href="https://x.com/GltchChaos" target="_blank" class="btn" style="padding: 10px 20px; font-size: 14px;">Follow on X</a>
+    </p>
+  </section>
+
+  <footer style="text-align: center; position: relative; z-index: 2;">
+
+
+  © 2025 Eternal Duel. All rights reserved.
+</footer>
+
+</body>
+</html>
